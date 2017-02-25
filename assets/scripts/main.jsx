@@ -3,7 +3,7 @@ import {render} from 'react-dom';
 import ReactFireMixin from 'reactfire';
 import zenscroll from 'zenscroll';
 
-import firebase, {FIREBASE_URL, VOTES_DB} from './config';
+import firebase, { VOTES_DB, INTERESTS_DB, CONTRIBUTIONS_DB } from './config';
 
 import User from './user.jsx';
 import EntriesList from './entries-list.jsx';
@@ -42,6 +42,10 @@ const App = React.createClass({
     }).catch(function(error) {
       console.log('ERROR', error);
     });
+
+     this.bindAsArray(firebase.database().ref(CONTRIBUTIONS_DB), 'contributions');
+     this.bindAsArray(firebase.database().ref(INTERESTS_DB), 'interests');
+     this.bindAsArray(firebase.database().ref(VOTES_DB), 'votes');
   },
 
   /**

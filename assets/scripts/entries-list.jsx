@@ -3,7 +3,7 @@ import Spinner from 'react-spinner';
 import zenscroll from 'zenscroll';
 import ReactMarkdown from 'react-markdown';
 
-import {FIREBASE_URL} from './config';
+import firebase, { VOTES_DB } from './config';
 
 /**
  * Renders a list of entries
@@ -15,7 +15,7 @@ export default class extends React.Component {
    * @param  {String} key  The entry key
    */
   handleVote(key, votes) {
-    const ref = new Firebase(`${FIREBASE_URL}/votes/${key}`);
+    const ref = firebase.database().ref(`${VOTES_DB}/${key}`);
     ref.set(votes + 1);
     localStorage.setItem(key, true);
   }
