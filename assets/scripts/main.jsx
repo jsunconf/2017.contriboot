@@ -3,7 +3,7 @@ import {render} from 'react-dom';
 import ReactFireMixin from 'reactfire';
 import zenscroll from 'zenscroll';
 
-import {FIREBASE_URL} from './config';
+import firebase, {FIREBASE_URL} from './config';
 
 import User from './user.jsx';
 import EntriesList from './entries-list.jsx';
@@ -34,7 +34,7 @@ const App = React.createClass({
   /**
    * Initialises the firebase setup.
    */
-  componentWillMount: function() {
+  componentWillMount2: function() {
     const contribRef = new Firebase(`${FIREBASE_URL}/contributions`),
       interestsRef = new Firebase(`${FIREBASE_URL}/interests`),
       votesRef = new Firebase(`${FIREBASE_URL}/votes`),
@@ -45,6 +45,19 @@ const App = React.createClass({
     this.bindAsArray(contribRef, 'contributions');
     this.bindAsArray(interestsRef, 'interests');
     this.bindAsArray(votesRef, 'votes');
+  },
+
+  componentWillMount: function() {
+    var self = this;
+    firebase.auth().getRedirectResult().then(function(result) {
+
+      console.log('RESULT', result);
+
+      // The signed-in user info.
+      self.setState({user: self.getUserData(result.user)});
+    }).catch(function(error) {
+      console.log('ERROR', error);
+    });
   },
 
   /**
@@ -108,10 +121,10 @@ const App = React.createClass({
     }
 
     return {
-      id: user.github.id,
-      username: user.github.username,
-      displayName: user.github.displayName,
-      profileImageURL: user.github.profileImageURL
+      id: user.uid,
+      username: user.displayName,
+      displayName: user.displayName,
+      profileImageURL: user.photoURL
     };
   },
 

@@ -1,30 +1,27 @@
 import React from 'react';
-import Firebase from 'firebase';
 
-import {FIREBASE_URL} from './config';
+import firebase, {FIREBASE_URL} from './config';
 
 export default class extends React.Component {
   /**
    * Authenticate with Github
    */
   loginWithGithub() {
-    const ref = new Firebase(FIREBASE_URL);
-    ref.authWithOAuthRedirect('github', function(error) {
-      if (error) {
-        console.log('Login Failed!', error);
-      }
-    }, {
-      remember: 'sessionOnly',
-      scope: ''
-    });
+
+    firebase.auth().signInWithRedirect(new firebase.auth.GithubAuthProvider());
+    // session only ?
   }
 
   /**
    * Logout a user
    */
   logout() {
-    const ref = new Firebase(FIREBASE_URL);
-    ref.unauth();
+    firebase.auth().signOut().then(function() {
+      // Sign-out successful.
+      console.log('SIGN OUT SUCCESSS');
+    }, function(error) {
+      console.log('SIGN OUT ERROR', error);
+    });
   }
 
   renderLogin() {
@@ -37,7 +34,7 @@ export default class extends React.Component {
           type='button'
           className='button button--small button--login user__button-login'
           onClick={this.loginWithGithub}>
-          Login
+          Login with github
         </button>
       </div>
     );
