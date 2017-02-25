@@ -3,7 +3,7 @@ import {render} from 'react-dom';
 import ReactFireMixin from 'reactfire';
 import zenscroll from 'zenscroll';
 
-import firebase, {FIREBASE_URL} from './config';
+import firebase, {FIREBASE_URL, VOTES_DB} from './config';
 
 import User from './user.jsx';
 import EntriesList from './entries-list.jsx';
@@ -34,25 +34,9 @@ const App = React.createClass({
   /**
    * Initialises the firebase setup.
    */
-  componentWillMount2: function() {
-    const contribRef = new Firebase(`${FIREBASE_URL}/contributions`),
-      interestsRef = new Firebase(`${FIREBASE_URL}/interests`),
-      votesRef = new Firebase(`${FIREBASE_URL}/votes`),
-      authRef = new Firebase(FIREBASE_URL);
-
-    authRef.onAuth(rawUser => this.setState({user: this.getUserData(rawUser)}));
-
-    this.bindAsArray(contribRef, 'contributions');
-    this.bindAsArray(interestsRef, 'interests');
-    this.bindAsArray(votesRef, 'votes');
-  },
-
   componentWillMount: function() {
     var self = this;
     firebase.auth().getRedirectResult().then(function(result) {
-
-      console.log('RESULT', result);
-
       // The signed-in user info.
       self.setState({user: self.getUserData(result.user)});
     }).catch(function(error) {
@@ -133,17 +117,20 @@ const App = React.createClass({
    * @param  {Object} newEntry The new entry
    */
   handleEntryAdd: function(newEntry) {
-    const typeRef = this.firebaseRefs[newEntry.type],
-      votesRef = this.firebaseRefs.votes,
+
+    const typeRef = firebase.database().ref(newEntry.type),
+      votesRef = firebase.database().ref(VOTES_DB),
       newEntryRef = typeRef.push({
         title: newEntry.title,
         description: newEntry.description,
         user: this.state.user
-      }),
-      newKey = newEntryRef.key();
+      });
+      newEntryRef.then(result => {
+        const newKey = result.key;
+        votesRef.child(newKey).set(1);
+      //  location.hash = newKey;
+      })
 
-    votesRef.child(newKey).set(1)
-    location.hash = newKey;
     this.setState({shallScroll: true});
   },
 

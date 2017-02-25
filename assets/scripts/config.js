@@ -2,7 +2,7 @@ import firebase from 'firebase/app';
 require("firebase/auth");
 require("firebase/database");
 
-export const FIREBASE_URL = 'https://contriboot-2017.firebaseio.com';
+//export const FIREBASE_URL = 'https://contriboot-2017.firebaseio.com';
 
 var config = {
    apiKey: "AIzaSyB12-gGTDUH8a9DjR4Y8br5B_3e3swnMC4",
@@ -11,5 +11,8 @@ var config = {
  };
 firebase.initializeApp(config);
 
+export const CONTRIBUTIONS_DB = 'contributions';
+export const INTERESTS_DB= 'interests';
+export const VOTES_DB = 'votes';
 
 export default firebase;

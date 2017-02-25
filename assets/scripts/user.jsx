@@ -7,7 +7,6 @@ export default class extends React.Component {
    * Authenticate with Github
    */
   loginWithGithub() {
-
     firebase.auth().signInWithRedirect(new firebase.auth.GithubAuthProvider());
     // session only ?
   }
