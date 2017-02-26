@@ -1,11 +1,10 @@
 @import 'main-site'
 
 body
-  background-image: url("/images/keyvisual.jpg");
-  background-size: 30%;
-  background-repeat: no-repeat;
-  background-position: right 400px;
   scroll-behavior: smooth
+
+.navigation__home__image
+  max-height: 8em
 
 fieldset
   border: none
@@ -35,8 +34,10 @@ textarea,
   width: 100%
 
 .submit-form
+  padding: 15px
   max-width: 500px
   margin: 1em auto
+  background: rgba(black, .25)
   &__header
     h3, fieldset
       display: inline-block
@@ -47,8 +48,6 @@ textarea,
     display:none
 
   & input[type="radio"] + label
-    background-color:#999
-    box-shadow: 2px 2px 0px 2px #777
     padding:4px 11px
     font-family:Arial
     font-size:16px
@@ -57,8 +56,7 @@ textarea,
     padding-bottom: 0
 
   & input[type="radio"]:checked + label
-    background-color: #0069b4
-    box-shadow: 2px 2px 0px 2px #004b9f
+    box-shadow: 3px 3px 0px #004b9f
 
 .entries-container
   display: flex
@@ -148,7 +146,6 @@ textarea,
   &__button-login,
   &__button-logout
     cursor: pointer
-    box-shadow: 2px 2px 0px 2px #004b9f
     padding: 4px 11px
 
 /**
