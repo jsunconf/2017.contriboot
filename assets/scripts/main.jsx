@@ -5,7 +5,8 @@ import zenscroll from 'zenscroll';
 
 import firebase, { VOTES_DB, INTERESTS_DB, CONTRIBUTIONS_DB } from './config';
 
-import User from './user.jsx';
+import Login from './login.jsx';
+import Logout from './logout.jsx';
 import EntriesList from './entries-list.jsx';
 import AddEntriesForm from './add-entries-form.jsx';
 
@@ -137,6 +138,28 @@ const App = React.createClass({
 
     this.setState({shallScroll: true});
   },
+  
+  /**
+   * Logout a user
+   */
+  logout() {
+    const self = this;
+    const logOutUser = function() {
+      self.setState({user : null});
+    }
+
+    firebase.auth().signOut().then(function() {
+      logOutUser();
+    }, function(error) {
+      console.log('SIGN OUT ERROR', error);
+    });
+  },
+  /**
+   * Authenticate with Github
+   */
+  loginWithGithub() {
+    firebase.auth().signInWithRedirect(new firebase.auth.GithubAuthProvider());
+  },
 
   /**
    * Returns the component.
@@ -164,7 +187,10 @@ const App = React.createClass({
 
         <h2>Add contrib or interest</h2>
 
-        <User user={this.state.user} />
+        {isLoggedin ?
+          <Logout user={this.state.user} logout={this.logout} /> :
+          <Login loginWithGithub={this.loginWithGithub}/>
+        }
 
         {isLoggedin ?
           <AddEntriesForm onEntryAdd={this.handleEntryAdd} /> :
