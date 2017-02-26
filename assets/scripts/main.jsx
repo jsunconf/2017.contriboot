@@ -3,7 +3,7 @@ import {render} from 'react-dom';
 import ReactFireMixin from 'reactfire';
 import zenscroll from 'zenscroll';
 
-import firebase, { VOTES_DB, INTERESTS_DB, CONTRIBUTIONS_DB } from './config';
+import firebase, { VOTES_DB, INTERESTS_DB, CONTRIBUTIONS_DB } from './config.jsx';
 
 import Login from './login.jsx';
 import Logout from './logout.jsx';
@@ -138,7 +138,7 @@ const App = React.createClass({
 
     this.setState({shallScroll: true});
   },
-  
+
   /**
    * Logout a user
    */

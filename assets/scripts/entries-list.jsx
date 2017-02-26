@@ -3,7 +3,7 @@ import Spinner from 'react-spinner';
 import zenscroll from 'zenscroll';
 import ReactMarkdown from 'react-markdown';
 
-import firebase, { VOTES_DB } from './config';
+import firebase, { VOTES_DB } from './config.jsx';
 
 /**
  * Renders a list of entries
