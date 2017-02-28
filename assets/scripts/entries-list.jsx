@@ -1,6 +1,5 @@
 import React from 'react';
 import Spinner from 'react-spinner';
-import zenscroll from 'zenscroll';
 import ReactMarkdown from 'react-markdown';
 
 import firebase, { VOTES_DB } from './config.jsx';
@@ -42,15 +41,6 @@ export default class extends React.Component {
           return <li data-key={key} key={key} className={classes}>
             <div className='entry__header'>
               <a href={isActive ? '#none' : `#${key}`}
-                  onClick={() => {
-                    const currentElement = document.querySelector(
-                      `[data-key='${key}']`);
-                    if (currentElement) {
-                      setTimeout(() => {
-                        zenscroll.intoView(currentElement);
-                      }, 10);
-                    }
-                  }}
                   title={entry.title}
                   className='entry__header__title'>
                 <h3>

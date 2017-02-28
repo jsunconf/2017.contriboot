@@ -1,7 +1,6 @@
 import React from 'react';
 import {render} from 'react-dom';
 import ReactFireMixin from 'reactfire';
-import zenscroll from 'zenscroll';
 
 import firebase, { VOTES_DB, INTERESTS_DB, CONTRIBUTIONS_DB } from './config.jsx';
 
@@ -70,15 +69,16 @@ const App = React.createClass({
       didRender = contributions.length + interests.length === entriesCount;
     let currentElement = null;
 
-    if (didRender && state.shallScroll && contributions.length &&
-        interests.length) {
-      this.setState({shallScroll: false});
+    if (didRender && state.shallScroll
+        && (contributions.length || interests.length)) {
 
       currentElement = document.querySelector(
         `[data-key='${currentEntryKey}']`);
 
       if (currentElement) {
-        zenscroll.to(currentElement);
+        this.setState({shallScroll: false}, () => {
+          currentElement.scrollIntoView();
+        });
       }
     }
   },

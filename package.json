@@ -43,7 +43,6 @@
     "to-markdown": "^3.0.3",
     "uglify-js": "^2.4.23",
     "watch-run": "^1.2.2",
-    "watchify": "^3.2.3",
-    "zenscroll": "^3.0.1"
+    "watchify": "^3.2.3"
   }
 }
